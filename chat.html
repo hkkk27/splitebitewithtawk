@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat - Splittbitte</title>
+    <style>
+        /* Inherit base styles from index.html */
+        body { background: #f8f9fa; }
+        .navbar { margin-bottom: 2rem; }
+        .chat-container { max-width: 800px; margin: 0 auto; }
+        #tawk-chat { height: 70vh; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">Splittbitte</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <button class="back-btn" onclick="window.history.back()">← Back to Restaurants</button>
+        <div class="chat-container">
+            <div id="tawk-chat"></div>
+            <p style="margin-top: 1rem; text-align: center; color: #666;">
+                💡 Chat with your group to coordinate orders and share UPI IDs!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Tawk.to Configuration
+        const tawkConfig = {
+            'pizza-hut': '67b4965e1b4fe0190b6eab73/1ikcmmonf',
+            'dominos': '67b496ae1b4fe0190b6eab7a/1ikcmp6hg',
+            'burger-king': '67b496cf84dc73190e35326f/1ikcmq6nm',
+            'mcdonalds': '67b49705cf50bc191a8b3834/1ikcmrs0q'
+        };
+
+        // Load appropriate chat
+        const params = new URLSearchParams(window.location.search);
+        const restaurant = params.get('restaurant') || localStorage.getItem('selectedRestaurant');
+        
+        if (restaurant && tawkConfig[restaurant]) {
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = `https://embed.tawk.to/${tawkConfig[restaurant]}`;
+            script.charset = 'UTF-8';
+            script.setAttribute('crossorigin', '*');
+            document.head.appendChild(script);
+        } else {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
