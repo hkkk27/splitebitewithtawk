@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Food Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #343a40;
+        }
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .restaurant-btn {
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .restaurant-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        .chat-container {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .close-btn {
+            background: #dc3545;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .close-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose a Restaurant</h1>
+    <div class="restaurant-grid">
+        <button class="restaurant-btn" onclick="openChat('Pizza Hut', '67b4965e1b4fe0190b6eab73')">
+            🍕 Pizza Hut
+        </button>
+        <button class="restaurant-btn" onclick="openChat('Domino\'s', '67b496ae1b4fe0190b6eab7a')">
+            🍕 Domino's
+        </button>
+        <button class="restaurant-btn" onclick="openChat('Burger King', '67b496cf84dc73190e35326f')">
+            🍔 Burger King
+        </button>
+        <button class="restaurant-btn" onclick="openChat('McDonald\'s', '67b49705cf50bc191a8b3834')">
+            🍟 McDonald's
+        </button>
+    </div>
+
+    <div id="chatContainer" class="chat-container">
+        <h2 id="chatTitle"></h2>
+        <div id="tawkContainer"></div>
+        <p>Share your UPI ID in the chat to split payments!</p>
+        <button class="close-btn" onclick="closeChat()">Close Chat</button>
+    </div>
+
+    <script>
+        function openChat(restaurant, tawkId) {
+            document.getElementById('chatContainer').style.display = 'block';
+            document.getElementById('chatTitle').textContent = `${restaurant} Chat`;
+            loadTawkScript(tawkId);
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function loadTawkScript(tawkId) {
+            const existingScript = document.getElementById('tawkScript');
+            if (existingScript) {
+                existingScript.remove();
+            }
+
+            const tawkScript = document.createElement('script');
+            tawkScript.id = 'tawkScript';
+            tawkScript.type = 'text/javascript';
+            tawkScript.async = true;
+            tawkScript.src = `https://embed.tawk.to/${tawkId}/default`;
+            tawkScript.charset = 'UTF-8';
+            tawkScript.setAttribute('crossorigin', '*');
+            document.getElementById('tawkContainer').appendChild(tawkScript);
+        }
+
+        function closeChat() {
+            document.getElementById('chatContainer').style.display = 'none';
+            const tawkContainer = document.getElementById('tawkContainer');
+            tawkContainer.innerHTML = ''; // Clear the chat container
+        }
+    </script>
+</body>
+</html>
